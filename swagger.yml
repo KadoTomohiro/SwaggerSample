@@ -1,0 +1,70 @@
+openapi: 3.0.0
+
+info:
+  title: Sample API
+  version: v0.1.0
+  description: 初めてのOpenAPI Sample
+  termsOfService: http://example.com
+  contact:
+    name: Kado Tomohiro
+    url: http://github.com/KadoTomohiro
+    email: corner0427@gmail.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: http://develop.example.com:{port}/{version}
+    description: Development Server
+    variables:
+      port:
+        enum:
+          - 8080
+          - 8000
+        default: 8080
+        description: development server port
+      version:
+        default: v1
+        description: API Version.
+  - url: https://staging.example.com/v1
+    description: Staging Server
+  - url: https://production.example.com/v1
+    description: Production Server
+paths:
+  /todo:
+    summary: Todoの一覧
+    description: Todoの一覧に対する操作。
+    get:
+      tags:
+        - Todo
+      summary: Todoの一覧
+      description: TODOの一覧を返す
+      operationId: todoList
+      parameters:
+        - name: state
+          in: query
+          description: Todoの状態のフィルター条件
+          required: false
+          schema:
+            type: string
+            enum:
+              - todo
+              - done
+      responses:
+        '200':
+          description: 成功時
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: string
+                      example: 'aaaa-bbbb-str-sthr-sawr'
+                    done:
+                      type: boolean
+                      example: false
+                    task:
+                      type: string
+                      example: 'メールチェック'
